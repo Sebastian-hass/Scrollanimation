@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Moto Scroll</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+    }
+    img {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+    main {
+      height: 300vh; /* Espacio para el scroll */
+    }
+    header {
+    background: linear-gradient(40deg, #ba3816, #a41705 40%);
+    width: 300px;
+    height: 300px;
+    border-radius: 1000px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    margin-top: -230px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    animation: slideInDown 1500ms ease-out;
+    overflow: hidden; /* Ocultar el contenido que sobresalga */
+    }
+
+header img {
+  width: 130px; /* La imagen ocupa el ancho completo del header */
+  height: auto; /* La imagen ocupa el alto completo del header */
+  margin-bottom: 30px;
+  z-index: 2; /* Eleva la imagen por encima del fondo */
+  position: relative; /* Asegura que el degradado no tape la imagen */
+}
+
+
+
+    @keyframes slideInDown {
+      from {
+        transform: translate3d(-50%, -100%, 0);
+        opacity: 0;
+      }
+
+      to {
+        transform: translate3d(-50%, 0, 0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+        <img src="logo.png" alt="ICHIBAN - Caminos por explorar">
+    </header>
+  </main>
+
+  <script type="module">
+    // Importar imágenes desde el archivo images.js
+    import { images } from './images.js';
+
+    const main = document.querySelector('main');
+    const img = document.createElement('img');
+    document.body.appendChild(img);
+
+    const MAX_FRAMES = images.length; // Número de frames
+    let currentFrame = 0;
+
+    function updateImage(frame = 0) {
+      img.src = images[frame].p; // Actualizamos la imagen actual
+    }
+
+    // Inicializar con la primera imagen
+    updateImage(currentFrame);
+
+    // Cálculo del scroll
+    let maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    });
+
+    const contadorFrames = document.createElement('div');
+    contadorFrames.style.position = 'fixed';
+    contadorFrames.style.top = '10px';
+    contadorFrames.style.right = '20px';
+    contadorFrames.style.color = '#000';
+    contadorFrames.style.background = '#ffffffaa';
+    contadorFrames.style.padding = '5px 10px';
+    contadorFrames.style.borderRadius = '5px';
+    contadorFrames.style.fontFamily = 'Arial, sans-serif';
+    contadorFrames.style.fontSize = '14px';
+    document.body.appendChild(contadorFrames);
+
+    window.addEventListener('scroll', () => {
+      const scrollPosition = window.scrollY;
+      const scrollFraction = scrollPosition / maxScroll;
+      const frame = Math.min(
+        Math.floor(scrollFraction * MAX_FRAMES),
+        MAX_FRAMES - 1
+      );
+
+      if (currentFrame !== frame) {
+        currentFrame = frame;
+        updateImage(frame);
+      }
+
+      //Actualizar el contenido del contador
+      contadorFrames.innerText='Estas en el Frame:'+ frame;
+    });
+
+    // Crear botón reset
+    const resetButton = document.createElement('button');
+    resetButton.innerText = 'Reiniciar Animación';
+    resetButton.style.position = 'fixed';
+    resetButton.style.bottom = '20px';
+    resetButton.style.right = '20px';
+    resetButton.style.padding = '10px 20px';
+    resetButton.style.background = 'linear-gradient(40deg, #ba3816, #a41705 40%)';
+    resetButton.style.color = '#0009';
+    resetButton.style.border = 'none';
+    resetButton.style.borderRadius = '20px';
+    resetButton.style.cursor = 'pointer';
+    resetButton.style.zIndex = '1000';
+    document.body.appendChild(resetButton);
+    
+    // Añadir evento de click
+    resetButton.addEventListener('click', () => {
+       window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    
+  </script>
+</body>
+</html>
