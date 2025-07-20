@@ -1,3 +1,5 @@
+<img width="1920" height="1280" alt="322_1x_shots_so" src="https://github.com/user-attachments/assets/0082d378-ab78-4cdf-9832-f0cddf033f27" />
+
 # 📜 Scroll Animation — Vanilla JS & HTML
 
 Una sencilla pero efectiva animación de **scroll infinito** desarrollada con **JavaScript puro** y **HTML**, diseñada para demostrar efectos de animación sin depender de frameworks o librerías externas.
